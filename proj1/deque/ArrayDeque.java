@@ -24,10 +24,7 @@ public class ArrayDeque<T> implements Deque<T> {
             resize(size * 2);
         }
         items[nextFirst] = item;
-        nextFirst -= 1;
-        if (nextFirst < 0) {
-            nextFirst = items.length - 1;
-        }
+        nextFirst = Math.floorMod(nextFirst - 1, items.length);
         size += 1;
     }
 
@@ -37,25 +34,17 @@ public class ArrayDeque<T> implements Deque<T> {
             resize(size * 2);
         }
         items[nextLast] = item;
-        nextLast += 1;
-        if (nextLast == items.length) {
-            nextLast = 0;
-        }
+        nextLast = Math.floorMod(nextLast + 1, items.length);
         size += 1;
     }
 
     private void resize(int capacity) {
         T[] a = (T[]) new Object[capacity];
 
-        int k = nextFirst;
         for (int i = 0; i < size; i++) {
-            k += 1;
-            if (k == items.length) {
-                k = 0;
-            }
+            int k = Math.floorMod(nextFirst + 1 + i, items.length);
             a[i] = items[k];
         }
-
 
         nextFirst = capacity - 1;
         nextLast = size;
@@ -77,12 +66,8 @@ public class ArrayDeque<T> implements Deque<T> {
 
         StringBuilder s = new StringBuilder();
 
-        int k = nextFirst;
         for (int i = 0; i < size; i++) {
-            k += 1;
-            if (k == items.length) {
-                k = 0;
-            }
+            int k = Math.floorMod(nextFirst + 1 + i, items.length);
             s.append(items[k]);
             s.append(" ");
         }
@@ -96,10 +81,7 @@ public class ArrayDeque<T> implements Deque<T> {
             if ((size < items.length / 4) && (size > 4)) {
                 resize(size + 1);
             }
-            int curFirst = nextFirst + 1;
-            if (curFirst == items.length) {
-                curFirst = 0;
-            }
+            int curFirst = (nextFirst + 1) % items.length;
             T first = items[curFirst];
             items[curFirst] = null;
             nextFirst = curFirst;
@@ -115,10 +97,7 @@ public class ArrayDeque<T> implements Deque<T> {
             if ((size < items.length / 4) && (size > 4)) {
                 resize(size + 1);
             }
-            int curLast = nextLast - 1;
-            if (curLast < 0) {
-                curLast = items.length - 1;
-            }
+            int curLast = Math.floorMod(nextLast - 1, items.length);
             T last = items[curLast];
             items[curLast] = null;
             nextLast = curLast;
@@ -130,14 +109,7 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public T get(int index) {
-        int k = nextFirst;
-        for (int i = 0; i <= index; i++) {
-            k += 1;
-            if (k == items.length) {
-                k = 0;
-            }
-        }
-
+        int k = (nextFirst + 1 + index) % items.length;
         return items[k];
     }
 }
