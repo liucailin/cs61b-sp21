@@ -9,15 +9,11 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private int nextFirst;
     private int nextLast;
 
-    public ArrayDeque(int capacity) {
+    public ArrayDeque() {
         size = 0;
-        items = (T[]) new Object[capacity];
+        items = (T[]) new Object[8];
         nextFirst = 0;
         nextLast = 1;
-    }
-
-    public ArrayDeque() {
-        this(8);
     }
 
     @Override
@@ -60,11 +56,10 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public void printDeque() {
-        System.out.println(this);
+        System.out.println(getString());
     }
 
-    @Override
-    public String toString() {
+    private String getString() {
 
         StringBuilder s = new StringBuilder();
 
@@ -118,13 +113,15 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public boolean equals(Object obj) {
 
-        if (obj == this)
+        if (obj == this) {
             return true;
-        if (!(obj instanceof ArrayDeque))
+        }
+        if (!(obj instanceof Deque)) {
             return false;
+        }
 
-        ArrayDeque<T> other = (ArrayDeque<T>) obj;
-        if (size != other.size) {
+        Deque other = (Deque) obj;
+        if (size != other.size()) {
             return false;
         }
 
