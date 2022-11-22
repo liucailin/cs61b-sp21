@@ -5,9 +5,9 @@ import java.util.Iterator;
 public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     private class Node {
-        public T item;
-        public Node next;
-        public Node prev;
+        private T item;
+        private Node next;
+        private Node prev;
 
         public Node(T item, Node next, Node prev) {
             this.item = item;
@@ -70,19 +70,19 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     public void printDeque() {
+        System.out.println(this);
+    }
+
+    @Override
+    public String toString() {
         StringBuilder s = new StringBuilder();
         Node p = sentinel.next;
-        if (p != sentinel) {
-            s.append(p.item);
-            p = p.next;
-        }
         while (p != sentinel) {
-            s.append(' ');
             s.append(p.item);
+            s.append(' ');
             p = p.next;
         }
-        s.append("\n");
-        System.out.println(s);
+        return s.toString();
     }
 
     public T get(int index) {
@@ -108,7 +108,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
             return p.item;
         }
 
-        return  _getRecursive(i+1, index, p.next);
+        return _getRecursive(i + 1, index, p.next);
     }
 
 

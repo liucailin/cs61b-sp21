@@ -1,6 +1,10 @@
 package deque;
 
+import edu.princeton.cs.algs4.StdRandom;
 import org.junit.Test;
+
+import java.util.LinkedList;
+
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
@@ -74,10 +78,12 @@ public class LinkedListDequeTest {
 		// should be empty
 		assertTrue("lld1 should be empty upon initialization", lld1.isEmpty());
 
+        lld1.addLast(5);
 		lld1.addFirst(1);
 		// should not be empty
 		assertFalse("lld1 should contain 1 item", lld1.isEmpty());
         lld1.addFirst(2);
+        lld1.addLast(6);
         lld1.addFirst(3);
         lld1.addLast(4);
         assertEquals(4, (int)lld1.removeLast());
@@ -163,5 +169,54 @@ public class LinkedListDequeTest {
         }
 
 
+    }
+
+    @Test
+    public void randomTest() {
+        LinkedListDeque<Integer> L = new LinkedListDeque<>();
+        LinkedList<Integer> C = new LinkedList<>();
+        int N = 5000;
+        for (int i = 0; i < N; i++) {
+            int op = StdRandom.uniform(0, 5);
+            int value = StdRandom.uniform(0, 100);
+
+            if (op == 0) {
+                L.addFirst(value);
+                C.addFirst(value);
+            } else if (op == 1) {
+                L.addLast(value);
+                C.addLast(value);
+            } else if (op == 2) {
+                if (L.size() > 0 && C.size() > 0) {
+                    assertEquals(C.removeFirst(), L.removeFirst());
+                }
+            } else if (op == 3) {
+                if (L.size() > 0 && C.size() > 0) {
+                    assertEquals(C.removeLast(), L.removeLast());
+                }
+            } else if (op == 4) {
+                if (L.size() > 0 && C.size() > 0) {
+                    int index = StdRandom.uniform(0, L.size());
+                    assertEquals(C.get(index), L.get(index));
+                }
+            }
+        }
+
+        StringBuilder s = new StringBuilder();
+        for (int e : C) {
+            s.append(e);
+            s.append(" ");
+        }
+
+        assertEquals(s.toString(), L.toString());
+
+    }
+
+    @Test
+    public void repeatRandomTest() {
+        int N = 1000;
+        for (int i = 0; i < N; i++) {
+            randomTest();
+        }
     }
 }
