@@ -30,9 +30,9 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         Node first = new Node(item, sentinel.next, sentinel);
         sentinel.next.prev = first;
         sentinel.next = first;
-        if (first.next == sentinel) {
-            sentinel.prev = first;
-        }
+//        if (first.next == sentinel) {
+//            sentinel.prev = first;
+//        }
         size += 1;
     }
 
